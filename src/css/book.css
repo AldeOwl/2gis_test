@@ -1,0 +1,30 @@
+.book {
+    padding: 20px;
+    border: 1px solid #999;
+    border-top: none;
+}
+.author {
+    font-size: 16px;
+    font-weight: normal;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+.title {
+    display: inline-block;
+    font-size: 20px;
+}
+.startReading {
+    display: inline-block;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: end;
+    background-color: transparent;
+}
+.tag {
+    margin-right: 5px;
+    border: none;
+    background-color: #ddd;
+}

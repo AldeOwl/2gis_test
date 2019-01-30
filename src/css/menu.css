@@ -1,0 +1,12 @@
+.menu {
+    display: flex;
+    margin-top: 50px;
+}
+.menuItem {
+    flex: 1;
+    height: 60px;
+    font-size: 18px;
+    line-height: 60px;
+    text-align: center;
+    border: 1px solid #999;
+}

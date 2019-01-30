@@ -1,0 +1,6 @@
+.progress {
+    display: none;
+}
+.active {
+    display: block;
+}
