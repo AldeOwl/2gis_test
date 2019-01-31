@@ -8,5 +8,19 @@
     font-size: 18px;
     line-height: 60px;
     text-align: center;
+    color: #000;
+    text-decoration: none;
     border: 1px solid #999;
+}
+.menuItemActive {
+    flex: 1;
+    height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 60px;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid #999;
+    border-bottom: none;    
 }

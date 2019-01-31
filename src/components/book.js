@@ -9,7 +9,7 @@ class Book extends Component {
                 <h2 className="author">{item.author}</h2>
                 <div className="row">
                     <h1 className="title">{item.title}</h1>
-                    <button className="startReading">start reading</button>
+                    {this.props.btn()}
                 </div>
                 <p className="description">{item.description}</p>
                 <div className="tagsBar">
@@ -19,7 +19,6 @@ class Book extends Component {
         ))
     }
     render() {
-        console.log(this.props.books)
         return (
             <>
                 {this.renderBook()}

@@ -20,8 +20,36 @@
     border: none;
     font-size: 20px;
     font-weight: bold;
-    text-align: end;
     background-color: transparent;
+    text-decoration: underline;
+    outline: none;
+}
+.startReading::after{
+    content: url('./../image/right-arrow.svg');
+}
+.finishReading {
+    display: inline-block;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: transparent;
+    text-decoration: underline;
+    outline: none;
+}
+.finishReading::after{
+    content: url('./../image/right-arrow.svg');
+}
+.return {
+    display: inline-block;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: transparent;
+    text-decoration: underline;
+    outline: none;
+}
+.return::after{
+    content: url('./../image/back.svg');
 }
 .tag {
     margin-right: 5px;

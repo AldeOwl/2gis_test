@@ -3,16 +3,19 @@ import './../css/menu.css';
 
 
 class Menu extends Component {
-
-    handler = (ev) => (
-        this.props.setActiveTab(ev.target.id)
-    )
+    state = {
+        active: ''
+    }
+    handler (val){
+        this.props.setActiveTab(val)
+        this.setState({active: val})
+    }
     render() {
         return (
             <nav className="menu">
-                <a className="menuItem" id="toread" onClick={this.handler}>To read</a>
-                <a className="menuItem" id="progress" onClick={this.handler}>In progress</a>
-                <a className="menuItem" id="done" onClick={this.handler}>Done</a>
+                <a  className={this.state.active === 'toread' ? 'menuItemActive' : 'menuItem'} onClick={()=>{this.handler('toread')}}>{`To read(${this.props.read})`}</a>
+                <a  className={this.state.active === 'progress' ? 'menuItemActive' : 'menuItem'} onClick={()=>{this.handler('progress')}}>In progress</a>
+                <a  className={this.state.active === 'done' ? 'menuItemActive' : 'menuItem'} onClick={()=>{this.handler('done')}}>Done</a>
             </nav>
         );
     }

@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
 import Menu from './components/menu';
-import ToRead from './components/toRead';
-import InProgress from './components/inProgress';
-import Done from './components/done';
+import Widget from './components/widget';
+import books from './items.json'
 
 class App extends Component {
   state = {
-    activeTab: 0,
+    activeTab: '',
+    tags: [],
+    booksList: []
   }
-  showTab(){
-    let id = `${this.state.activeTab}Tab`
-    let tab = document.getElementById(id)
-    console.log(tab)
+  
+  checkUrl() {
+    let searchParams = new URLSearchParams(window.location.search);
+    let tab = searchParams.get('tab')
+    let tags = searchParams.getAll('tag')
+    this.setState({ activeTab: tab })
+    this.setState({ tags: tags })
   }
-  setActiveTab = (val) => {this.setState({activeTab: val})}
+  componentWillMount() {
+    this.setState({ booksList: books })
+    this.checkUrl();
+    // this.setState({activeTab: 'toread'})
+
+  }
+  setActiveTab = (val) => { this.setState({ activeTab: val }) }
 
   render() {
-    console.log(this.state.activeTab)
-    this.showTab();
     return (
       <div className="App">
-          <Menu setActiveTab={this.setActiveTab} />
-          <div className="contentWrap">
-            <ToRead  className="inActive" id="toreadTab" />
-            <InProgress className="inActive" id="progressTab" />
-            <Done className="inActive" id="doneTab" />
-          </div>
+        <Menu setActiveTab={this.setActiveTab} read={this.state.booksList.items.length} />
+        <div className="contentWrap">
+          <Widget activeTab={this.state.activeTab} tags={this.state.tags} books={this.state.booksList.items} />
+        </div>
       </div>
     );
   }
