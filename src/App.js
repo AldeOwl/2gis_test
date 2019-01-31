@@ -21,7 +21,7 @@ class App extends Component {
   componentWillMount() {
     this.setState({ booksList: books })
     this.checkUrl();
-    // this.setState({activeTab: 'toread'})
+    this.setState({activeTab: 'toread'})
 
   }
   setActiveTab = (val) => { this.setState({ activeTab: val }) }

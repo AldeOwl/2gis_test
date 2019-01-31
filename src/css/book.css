@@ -56,3 +56,11 @@
     border: none;
     background-color: #ddd;
 }
+.empty {
+    height: 300px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 300px;
+    border: 1px solid #999;
+    border-top: none;
+}
