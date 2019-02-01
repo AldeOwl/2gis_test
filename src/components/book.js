@@ -3,6 +3,17 @@ import './../css/book.css';
 
 
 class Book extends Component {
+    startReading(ev){
+        this.props.progress(ev)
+    }
+    choseBtn(val, id){
+        if(val === 'progress')
+            return <button className="startReading" id={id} onClick={(ev)=>{this.startReading(ev.target.id)}}>start reading</button>
+        else if(val === 'done')
+            return <button className="finishReading">finish reading</button>
+        else if(val === 'return')
+            return <button className="return">return in "to read"</button>
+    }
     renderBook () {
         if(!this.props.books){
             return <div className='empty'>List is empty</div>
@@ -13,7 +24,7 @@ class Book extends Component {
                     <h2 className="author">{item.author}</h2>
                     <div className="row">
                         <h1 className="title">{item.title}</h1>
-                        {this.props.btn()}
+                        {this.choseBtn(this.props.btn, item.id)}
                     </div>
                     <p className="description">{item.description}</p>
                     <div className="tagsBar">

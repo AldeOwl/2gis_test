@@ -6,7 +6,7 @@ class ToRead extends Component {
     render() {
         return (
             <div>
-                <Book books={this.props.books} btn={this.props.btn} />
+                <Book books={this.props.books} btn='progress' progress={this.props.btn} />
             </div>
         );
     }

@@ -8,30 +8,72 @@ class App extends Component {
   state = {
     activeTab: '',
     tags: [],
-    booksList: []
+    booksList: [],
+    read: [],
+    progress: [],
+    done: []
   }
   
-  checkUrl() {
+  checkUrl = () => {
     let searchParams = new URLSearchParams(window.location.search);
     let tab = searchParams.get('tab')
     let tags = searchParams.getAll('tag')
     this.setState({ activeTab: tab })
     this.setState({ tags: tags })
   }
+  returnFormatBookList(idList){
+    let formattedList = [];
+    idList.forEach(id => {
+      this.state.booksList.items.forEach(item => {
+        if(item.id === id)
+          formattedList.push(item)
+      })
+    }) 
+    return formattedList
+  }
+  deleteFromRead(id){
+    // let newArr = arr.filter(item => item.id !== id)
+    this.setState({read : this.state.read.filter(item => item !== id)})
+  }
+  addInProgress=(val)=>{
+    console.log(val)
+    console.log(this.state.read)
+    this.deleteFromRead('id-2')
+    console.log(this.state.read)
+
+    // let newProgress = this.state.progress.map(item=>item)
+    // newProgress.push(val)
+    // this.setState({progress: newProgress})
+    // this.deleteID(val, this.state.read)
+  }
   componentWillMount() {
     this.setState({ booksList: books })
     this.checkUrl();
     this.setState({activeTab: 'toread'})
-
+    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=toread` )
   }
-  setActiveTab = (val) => { this.setState({ activeTab: val }) }
-
+  componentDidMount() {
+    let readId = this.state.booksList.items.map(item => item.id)
+    this.setState({ read: readId})
+    window.addEventListener('popstate', e => {
+      this.checkUrl();
+    })
+  }
+  // setActiveTab = (val) => { this.setState({ activeTab: val }) }
+  
   render() {
     return (
       <div className="App">
-        <Menu setActiveTab={this.setActiveTab} read={this.state.booksList.items.length} />
+        <Menu setActiveTab={this.checkUrl} 
+              read={this.state.booksList.length !== 0 ? this.state.booksList.items.length : 0}
+              progress={this.state.progress.length !== 0 ? this.state.progress.items.length : 0}
+              done={this.state.done.length !== 0 ? this.state.done.items.length : 0}
+        />
         <div className="contentWrap">
-          <Widget activeTab={this.state.activeTab} tags={this.state.tags} books={this.state.booksList.items} />
+          <Widget activeTab={this.state.activeTab}
+                  tags={this.state.tags}
+                  addInProgress={this.addInProgress}
+                  read={this.returnFormatBookList(this.state.read)} />
         </div>
       </div>
     );

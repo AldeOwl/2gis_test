@@ -23,6 +23,7 @@
     background-color: transparent;
     text-decoration: underline;
     outline: none;
+    cursor: pointer;
 }
 .startReading::after{
     content: url('./../image/right-arrow.svg');
@@ -35,6 +36,7 @@
     background-color: transparent;
     text-decoration: underline;
     outline: none;
+    cursor: pointer;
 }
 .finishReading::after{
     content: url('./../image/right-arrow.svg');
@@ -47,6 +49,7 @@
     background-color: transparent;
     text-decoration: underline;
     outline: none;
+    cursor: pointer;
 }
 .return::after{
     content: url('./../image/back.svg');
