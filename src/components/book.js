@@ -15,7 +15,7 @@ class Book extends Component {
             return <button className="return">return in "to read"</button>
     }
     renderBook () {
-        if(!this.props.books){
+        if(!this.props.books || this.props.books.length == 0){
             return <div className='empty'>List is empty</div>
         }
         else {

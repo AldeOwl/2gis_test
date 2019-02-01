@@ -36,11 +36,11 @@ class App extends Component {
     this.setState({read : this.state.read.filter(item => item !== id)})
   }
   addInProgress=(val)=>{
-    console.log(val)
-    console.log(this.state.read)
-    this.deleteFromRead('id-2')
-    console.log(this.state.read)
-
+    this.deleteFromRead(val)
+    this.setState(state => {
+      const list = state.progress.push(val);
+      return list
+    })
     // let newProgress = this.state.progress.map(item=>item)
     // newProgress.push(val)
     // this.setState({progress: newProgress})
@@ -65,9 +65,9 @@ class App extends Component {
     return (
       <div className="App">
         <Menu setActiveTab={this.checkUrl} 
-              read={this.state.booksList.length !== 0 ? this.state.booksList.items.length : 0}
-              progress={this.state.progress.length !== 0 ? this.state.progress.items.length : 0}
-              done={this.state.done.length !== 0 ? this.state.done.items.length : 0}
+              read={this.state.read.length !== 0 ? this.state.read.length : 0}
+              progress={this.state.progress.length !== 0 ? this.state.progress.length : 0}
+              done={this.state.done.length !== 0 ? this.state.done.length : 0}
         />
         <div className="contentWrap">
           <Widget activeTab={this.state.activeTab}
