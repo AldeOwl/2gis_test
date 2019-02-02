@@ -6,16 +6,25 @@ class Book extends Component {
     startReading(ev){
         this.props.progress(ev)
     }
+    done(ev){
+        this.props.done(ev)
+    }
+    fromDoneInProgress(ev){
+        this.props.fromDone(ev)
+    }
+    setTag(val){
+        this.props.setTag(val)
+    }
     choseBtn(val, id){
         if(val === 'progress')
             return <button className="startReading" id={id} onClick={(ev)=>{this.startReading(ev.target.id)}}>start reading</button>
         else if(val === 'done')
-            return <button className="finishReading">finish reading</button>
+            return <button className="finishReading" id={id} onClick={(ev)=>{this.done(ev.target.id)}}>finish reading</button>
         else if(val === 'return')
-            return <button className="return">return in "to read"</button>
+            return <button className="return" id={id} onClick={(ev)=>{this.fromDoneInProgress(ev.target.id)}}>return in "to read"</button>
     }
     renderBook () {
-        if(!this.props.books || this.props.books.length == 0){
+        if(!this.props.books || this.props.books.length === 0){
             return <div className='empty'>List is empty</div>
         }
         else {
@@ -28,7 +37,7 @@ class Book extends Component {
                     </div>
                     <p className="description">{item.description}</p>
                     <div className="tagsBar">
-                        {item.tags.map((item, index) => ((<button className="tag" key={index}>#{item}</button>)))}
+                        {item.tags.map((item, index) => ((<button className="tag" onClick={()=>{this.setTag(item)}} key={index}>#{item}</button>)))}
                     </div>
                 </div>
             ))

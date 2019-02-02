@@ -58,6 +58,8 @@
     margin-right: 5px;
     border: none;
     background-color: #ddd;
+    outline: none;
+    cursor: pointer;
 }
 .empty {
     height: 300px;
