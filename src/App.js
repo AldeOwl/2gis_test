@@ -39,22 +39,15 @@ class App extends Component {
     if(this.state.tags.length > 0){
       let sortList = [];
       formattedList.forEach((item) => {
-        if(this.checkTag(item.tags)){
-          sortList.push(item)
-        }
+        this.state.tags.forEach(tag => {
+          if(item.tags.includes(tag)){
+            sortList.push(item)
+          }
+        })
       })
       return sortList
     }
     return formattedList
-  }
-  checkTag(arr){
-    let total = false;
-    arr.forEach(item => {
-      if(this.state.tags.includes(item)){
-        total = true;
-      }
-    })
-    return total;
   }
   setActiveTab = (val) => { 
     this.setState({ activeTab: val })
