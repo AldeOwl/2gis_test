@@ -56,6 +56,7 @@
 }
 .tag {
     margin-right: 5px;
+    margin-left: 5px;
     border: none;
     background-color: #ddd;
     outline: none;

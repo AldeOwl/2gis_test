@@ -9,7 +9,7 @@ class Done extends Component {
                 <Book books={this.props.books} btn='return' fromDone={this.props.btn} setTag={this.props.setTag} />
             </div>
         );
-    }
-}
+    };
+};
 
 export default Done;

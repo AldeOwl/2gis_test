@@ -7,19 +7,19 @@ class Menu extends Component {
         active: ''
     }
     handler(val) {
-        this.setState({ active: val })
-        this.props.setActiveTab(val)
-    }
+        this.setState({ active: val });
+        this.props.setActiveTab(val);
+    };
     componentWillMount() {
-        this.setState({ active: this.props.active })
-    }
+        this.setState({ active: this.props.active });
+    };
     componentDidMount() {
         window.addEventListener('popstate', () => {
             let searchParams = new URLSearchParams(window.location.search);
-            let tab = searchParams.get('tab')
-            this.setState({ active: tab })
-        })
-    }
+            let tab = searchParams.get('tab');
+            this.setState({ active: tab });
+        });
+    };
     render() {
         return (
             <nav className="menu">
@@ -34,7 +34,7 @@ class Menu extends Component {
                 </a>
             </nav>
         );
-    }
-}
+    };
+};
 
 export default Menu;

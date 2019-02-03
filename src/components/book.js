@@ -4,25 +4,28 @@ import './../css/book.css';
 
 class Book extends Component {
     startReading(ev){
-        this.props.progress(ev)
-    }
+        this.props.progress(ev);
+    };
     done(ev){
-        this.props.done(ev)
-    }
+        this.props.done(ev);
+    };
     fromDoneInProgress(ev){
-        this.props.fromDone(ev)
-    }
+        this.props.fromDone(ev);
+    };
     setTag(val){
-        this.props.setTag(val)
-    }
+        this.props.setTag(val);
+    };
     choseBtn(val, id){
-        if(val === 'progress')
+        if(val === 'progress'){
             return <button className="startReading" id={id} onClick={(ev)=>{this.startReading(ev.target.id)}}>start reading</button>
-        else if(val === 'done')
+        }
+        else if(val === 'done'){
             return <button className="finishReading" id={id} onClick={(ev)=>{this.done(ev.target.id)}}>finish reading</button>
-        else if(val === 'return')
+        }
+        else if(val === 'return'){
             return <button className="return" id={id} onClick={(ev)=>{this.fromDoneInProgress(ev.target.id)}}>return in "to read"</button>
-    }
+        }
+    };
     renderBook () {
         if(!this.props.books || this.props.books.length === 0){
             return <div className='empty'>List is empty</div>
@@ -40,16 +43,16 @@ class Book extends Component {
                         {item.tags.map((item, index) => ((<button className="tag" onClick={()=>{this.setTag(item)}} key={index}>#{item}</button>)))}
                     </div>
                 </div>
-            ))
+            ));
         }
-    }
+    };
     render() {
         return (
             <>
                 {this.renderBook()}
             </>
         );
-    }
-}
+    };
+};
 
 export default Book;

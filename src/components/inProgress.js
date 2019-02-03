@@ -8,7 +8,7 @@ class InProgress extends Component {
                 <Book books={this.props.books} btn='done' done={this.props.btn} setTag={this.props.setTag} />
             </div>
         );
-    }
-}
+    };
+};
 
 export default InProgress;
