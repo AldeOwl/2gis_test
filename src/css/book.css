@@ -41,7 +41,7 @@
 .finishReading::after{
     content: url('./../image/right-arrow.svg');
 }
-.return {
+.done {
     display: inline-block;
     border: none;
     font-size: 20px;
@@ -51,7 +51,7 @@
     outline: none;
     cursor: pointer;
 }
-.return::after{
+.done::after{
     content: url('./../image/back.svg');
 }
 .tag {

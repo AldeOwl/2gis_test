@@ -23,8 +23,8 @@ class Menu extends Component {
     render() {
         return (
             <nav className="menu">
-                <a className={this.state.active === 'toread' ? 'menuItemActive' : 'menuItem'}
-                    onClick={() => { this.handler('toread') }}>{`To read(${this.props.read})`}
+                <a className={this.state.active === 'read' ? 'menuItemActive' : 'menuItem'}
+                    onClick={() => { this.handler('read') }}>{`To read(${this.props.read})`}
                 </a>
                 <a className={this.state.active === 'progress' ? 'menuItemActive' : 'menuItem'}
                     onClick={() => { this.handler('progress') }}>{`In progress(${this.props.progress})`}

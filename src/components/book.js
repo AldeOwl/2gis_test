@@ -2,32 +2,26 @@ import React, { Component } from 'react';
 import './../css/book.css';
 
 
+let style = {
+    read: 'startReading',
+    progress: 'finishReading',
+    done: 'done'
+}
+let textBtn = {
+    read: 'start reading',
+    progress: 'finish reading',
+    done: 'return in "to read"'
+}
 class Book extends Component {
-    startReading(ev){
-        this.props.progress(ev);
+    moveBook(ev) {
+        this.props.btn(ev);
     };
-    done(ev){
-        this.props.done(ev);
-    };
-    fromDoneInProgress(ev){
-        this.props.fromDone(ev);
-    };
-    setTag(val){
+    setTag(val) {
         this.props.setTag(val);
     };
-    choseBtn(val, id){
-        if(val === 'progress'){
-            return <button className="startReading" id={id} onClick={(ev)=>{this.startReading(ev.target.id)}}>start reading</button>
-        }
-        else if(val === 'done'){
-            return <button className="finishReading" id={id} onClick={(ev)=>{this.done(ev.target.id)}}>finish reading</button>
-        }
-        else if(val === 'return'){
-            return <button className="return" id={id} onClick={(ev)=>{this.fromDoneInProgress(ev.target.id)}}>return in "to read"</button>
-        }
-    };
-    renderBook () {
-        if(!this.props.books || this.props.books.length === 0){
+
+    render() {
+        if (!this.props.books || this.props.books.length === 0) {
             return <div className='empty'>List is empty</div>
         }
         else {
@@ -36,22 +30,15 @@ class Book extends Component {
                     <h2 className="author">{item.author}</h2>
                     <div className="row">
                         <h1 className="title">{item.title}</h1>
-                        {this.choseBtn(this.props.btn, item.id)}
+                        <button className={style[this.props.active]} id={item.id} onClick={(ev) => { this.moveBook(ev.target.id) }}>{textBtn[this.props.active]}</button>
                     </div>
                     <p className="description">{item.description}</p>
                     <div className="tagsBar">
-                        {item.tags.map((item, index) => ((<button className="tag" onClick={()=>{this.setTag(item)}} key={index}>#{item}</button>)))}
+                        {item.tags.map((item, index) => ((<button className="tag" onClick={() => { this.setTag(item) }} key={index}>#{item}</button>)))}
                     </div>
                 </div>
             ));
         }
-    };
-    render() {
-        return (
-            <>
-                {this.renderBook()}
-            </>
-        );
     };
 };
 

@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import './App.css';
 import Menu from './components/menu';
-import ToRead from './components/toRead';
-import InProgress from './components/inProgress';
-import Done from './components/done';
 import books from './items.json'
+import moreBooks from './30000-items.json'
+import Book from './components/book';
+
+
+let target = {
+  read:'progress',
+  progress: 'done',
+  done: 'progress'
+};
+
 
 class App extends Component {
-    state = {
-      activeTab: 'toread',
+  constructor(props){
+    super(props)
+    this.state = {
+      activeTab: 'read',
       tags: [],
       booksList: books,
       read: [],
       progress: [],
       done: []
     }
+  }
   checkUrl = () => {
     let searchParams = new URLSearchParams(window.location.search);
     let tab = searchParams.get('tab');
@@ -29,7 +39,7 @@ class App extends Component {
     let formattedList = [];
     idList.forEach(id => {
       this.state.booksList.items.forEach(item => {
-        if (item.id === id) {
+        if(item.id === id) {
           formattedList.push(item);
         };
       });
@@ -37,7 +47,7 @@ class App extends Component {
     if (this.state.tags.length > 0) {
       let sortList = [];
       formattedList.forEach((item) => {
-        if (this.state.tags.every(tag => item.tags.includes(tag))) {
+        if(this.state.tags.every(tag => item.tags.includes(tag))) {
           sortList.push(item);
         };
       });
@@ -52,30 +62,20 @@ class App extends Component {
   };
 
   setTag = (val) => {
-    if (!this.state.tags.includes(val)) {
+    if(!this.state.tags.includes(val)) {
       this.setState(state => state.tags.push(val));
     };
   };
 
   clearTags = () => { this.setState(state => state.tags = []) };
-  
-  addInProgress = (val) => {
-    this.setState({ read: this.state.read.filter(item => item !== val) });
-    this.setState(state => state.progress.push(val));
-  };
 
-  addInProgressFromDone = (val) => {
-    this.setState({ done: this.state.done.filter(item => item !== val) });
-    this.setState(state => state.progress.push(val));
-  };
-
-  addInDone = (val) => {
-    this.setState({ progress: this.state.progress.filter(item => item !== val) });
-    this.setState(state => state.done.push(val));
+  moveBook = (id) => {
+    this.setState({[this.state.activeTab]: this.state[this.state.activeTab].filter(item => item !== id) });
+    this.setState(state => state[target[this.state.activeTab]].push(id));
   };
 
   componentWillMount() {
-    if (localStorage.getItem('read')) {
+    if(localStorage.getItem('read')) {
       this.setState({ read: JSON.parse(localStorage.getItem("read")) });
     };
     if(localStorage.getItem('progress')){
@@ -84,16 +84,14 @@ class App extends Component {
     if(localStorage.getItem('done')){
       this.setState({ done: JSON.parse(localStorage.getItem("done")) });
     }
+    let readId = this.state.booksList.items.map(item => item.id)
+    this.setState({ read: readId })
     this.checkUrl();
-    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab || 'toread'}`);
+    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab || 'read'}`);
   };
 
   componentDidMount() {
     window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}`);
-    if(!localStorage.getItem('read')){
-      let readId = this.state.booksList.items.map(item => item.id)
-      this.setState({ read: readId })
-    }  
     window.addEventListener('popstate', () => {
       this.checkUrl();
     });
@@ -109,20 +107,19 @@ class App extends Component {
     return (
       <div className="App">
         <Menu setActiveTab={this.setActiveTab}
-          active={this.state.activeTab}
-          read={this.state.read.length !== 0 ? this.state.read.length : 0}
-          progress={this.state.progress.length !== 0 ? this.state.progress.length : 0}
-          done={this.state.done.length !== 0 ? this.state.done.length : 0}
+              active={this.state.activeTab}
+              read={this.state.read.length}
+              progress={this.state.progress.length}
+              done={this.state.done.length}
         />
         <div className="contentWrap">
           {this.state.tags.length > 0 && <div className='filter'>Filtered by tags:
-                                      {this.state.tags.map((item, index) => ((<button className="tag" key={index}>#{item} </button>)))}
-            <button className='clearBtn' onClick={this.clearTags}>(clear)</button>
-          </div>}
+                                            {this.state.tags.map((item, index) => ((<button className="tag" key={index}>#{item} </button>)))}
+                                            <button className='clearFilter' onClick={this.clearTags}>(clear)</button>
+                                          </div>}
 
-          {this.state.activeTab === 'toread' && <ToRead btn={this.addInProgress} setTag={this.setTag} books={this.getFormatBookList(this.state.read)} />}
-          {this.state.activeTab === 'progress' && <InProgress btn={this.addInDone} setTag={this.setTag} books={this.getFormatBookList(this.state.progress)} />}
-          {this.state.activeTab === 'done' && <Done btn={this.addInProgressFromDone} setTag={this.setTag} books={this.getFormatBookList(this.state.done)} />}
+          <Book books={this.getFormatBookList(this.state[this.state.activeTab])} active={this.state.activeTab} btn={this.moveBook} setTag={this.setTag} />
+
         </div>
       </div>
     );
