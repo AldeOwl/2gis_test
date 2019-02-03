@@ -56,6 +56,8 @@ class App extends Component {
       this.setState(state => state.tags.push(val))
     }
   }
+  clearTags = () => {this.setState({tags: this.state.tags = []})}
+
   addInProgress=(val)=>{
     this.setState({read : this.state.read.filter(item => item !== val)})
     this.setState(state => state.progress.push(val))
@@ -70,8 +72,8 @@ class App extends Component {
   }
   componentWillMount() {
     this.setState({ booksList: books })
-    this.checkUrl();
     window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab || 'toread'}` )
+    this.checkUrl();
   }
   componentDidMount() {
     window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab || 'toread'}` )
@@ -92,6 +94,12 @@ class App extends Component {
               done={this.state.done.length !== 0 ? this.state.done.length : 0}
         />
         <div className="contentWrap">
+        
+          {this.state.tags.length > 0 && <div className='filter'>Filtered by tags: 
+                                      {this.state.tags.map((item, index) => ((<button className="tag" key={index}>#{item} </button>)))}
+                                      <button className='clearBtn' onClick={this.clearTags}>(clear)</button>
+                                      </div>}
+          
           {this.state.activeTab === 'toread' && <ToRead btn={this.addInProgress} setTag={this.setTag} books={this.getFormatBookList(this.state.read)} />}
           {this.state.activeTab === 'progress' && <InProgress btn={this.addInDone} setTag={this.setTag} books={this.getFormatBookList(this.state.progress)} />}
           {this.state.activeTab === 'done' && <Done btn={this.addInProgressFromDone} setTag={this.setTag} books={this.getFormatBookList(this.state.done)} />}

@@ -1,1 +1,15 @@
-
+.filter {
+    height: 115px;
+    text-align: center;
+    line-height: 115px;
+    border: 1px solid #999;
+    border-top: none;
+}
+.clearBtn {
+    border: none;
+    font-size: 18px;
+    background-color: transparent;
+    text-decoration: underline;
+    outline: none;
+    cursor: pointer;
+}
