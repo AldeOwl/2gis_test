@@ -39,11 +39,9 @@ class App extends Component {
     if(this.state.tags.length > 0){
       let sortList = [];
       formattedList.forEach((item) => {
-        this.state.tags.forEach(tag => {
-          if(item.tags.includes(tag)){
-            sortList.push(item)
-          }
-        })
+        if(this.state.tags.every(tag => item.tags.includes(tag))){
+          sortList.push(item)
+        }
       })
       return sortList
     }
