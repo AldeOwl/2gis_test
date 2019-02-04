@@ -28,14 +28,17 @@ class App extends Component {
   checkUrl = () => {
     let searchParams = new URLSearchParams(window.location.search);
     let tab = searchParams.get('tab');
-    let tags = searchParams.getAll('tag');
+    let tags = searchParams.getAll('tags');
     if (tags.length > 0) {
       tags = tags[0].split(',');
     };
-    this.setState({ activeTab: tab });
+    this.setState({ activeTab: tab || 'read'});
     this.setState({ tags: tags });
   }
   getFormatBookList(idList) {
+    if(idList === undefined){
+      return [];
+    }
     let formattedList = [];
     idList.forEach(id => {
       this.state.booksList.items.forEach(item => {
@@ -58,16 +61,22 @@ class App extends Component {
 
   setActiveTab = (val) => {
     this.setState({ activeTab: val });
-    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${val}`);
+    if(this.state.tags.length > 0){
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${val}&tags=${this.state.tags}`);
+    }
+    else{
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${val}`);
+    }
   };
 
   setTag = (val) => {
     if(!this.state.tags.includes(val)) {
       this.setState(state => state.tags.push(val));
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}&tags=${this.state.tags},${val}`);
     };
   };
 
-  clearTags = () => { this.setState(state => state.tags = []) };
+  clearTags = () => { this.setState(state => state.tags = []); window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}`)};
 
   moveBook = (id) => {
     this.setState({[this.state.activeTab]: this.state[this.state.activeTab].filter(item => item !== id) });
@@ -84,14 +93,22 @@ class App extends Component {
     if(localStorage.getItem('done')){
       this.setState({ done: JSON.parse(localStorage.getItem("done")) });
     }
-    let readId = this.state.booksList.items.map(item => item.id)
-    this.setState({ read: readId })
     this.checkUrl();
-    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab || 'read'}`);
+    if(this.state.tags.length > 0){
+      console.log(this.state.ta);window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}&tags=${this.state.tags}`);
+    }
+    else{
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}`);
+    }
   };
-
+  
   componentDidMount() {
-    window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}`);
+    if(this.state.tags.length > 0){
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}&tags=${this.state.tags}`);
+    }
+    else{
+      window.history.pushState(this.state.activeTab, this.state.activeTab, `?tab=${this.state.activeTab}`);
+    }
     window.addEventListener('popstate', () => {
       this.checkUrl();
     });
@@ -117,8 +134,7 @@ class App extends Component {
                                             {this.state.tags.map((item, index) => ((<button className="tag" key={index}>#{item} </button>)))}
                                             <button className='clearFilter' onClick={this.clearTags}>(clear)</button>
                                           </div>}
-
-          <Book books={this.getFormatBookList(this.state[this.state.activeTab])} active={this.state.activeTab} btn={this.moveBook} setTag={this.setTag} />
+          <Book books={this.getFormatBookList(this.state[this.state.activeTab])} active={this.state.activeTab} moveBook={this.moveBook} setTag={this.setTag} />
 
         </div>
       </div>

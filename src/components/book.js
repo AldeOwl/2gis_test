@@ -13,13 +13,6 @@ let textBtn = {
     done: 'return in "to read"'
 }
 class Book extends Component {
-    moveBook(ev) {
-        this.props.btn(ev);
-    };
-    setTag(val) {
-        this.props.setTag(val);
-    };
-
     render() {
         if (!this.props.books || this.props.books.length === 0) {
             return <div className='empty'>List is empty</div>
@@ -30,11 +23,11 @@ class Book extends Component {
                     <h2 className="author">{item.author}</h2>
                     <div className="row">
                         <h1 className="title">{item.title}</h1>
-                        <button className={style[this.props.active]} id={item.id} onClick={(ev) => { this.moveBook(ev.target.id) }}>{textBtn[this.props.active]}</button>
+                        <button className={style[this.props.active]} id={item.id} onClick={() => { this.props.moveBook(item.id) }}>{textBtn[this.props.active]}</button>
                     </div>
                     <p className="description">{item.description}</p>
                     <div className="tagsBar">
-                        {item.tags.map((item, index) => ((<button className="tag" onClick={() => { this.setTag(item) }} key={index}>#{item}</button>)))}
+                        {item.tags.map((item, index) => ((<button className="tag" onClick={() => { this.props.setTag(item) }} key={index}>#{item}</button>)))}
                     </div>
                 </div>
             ));
